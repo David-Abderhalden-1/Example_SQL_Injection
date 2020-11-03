@@ -1,21 +1,12 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return '''
-        <html>
-            <body>
-                <form action="http://localhost:1337/login" method="post">
-                    <p>Username:</p>
-                    <p><input type="text" name="username"/></p>
-                    <p><input type="submit" value="Send"/></p>
-                </form>
-            </body>
-        </html>
-    '''
+    return render_template("login.html")
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -25,7 +16,7 @@ def login():
         name = request.form['username']
     else:
         name = request.args.get('username')
-    return "Hallo " + name + "."
+    return render_template("index.html", name=name)
 
 
 if __name__ == '__main__':
