@@ -12,7 +12,12 @@
     </head>
 
     <body>
-        <h3>Willkommen zurück {{name}}!</h3>
+        <form method="post">
+            <p>Log-In:</p>
+            <p><input type="text" name="username" placeholder="username" required/></p>
+            <p><input type="password" name="password" placeholder="password" required/></p>
+            <p><input type="submit" value="Login"/></p>
+        </form>
     </body>
 
 </html>

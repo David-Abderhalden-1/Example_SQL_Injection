@@ -12,10 +12,9 @@
     </head>
 
     <body>
-        <form action="http://localhost:1337/login" method="post">
-            <p>Username:</p>
-            <p><input type="text" name="username"/></p>
-            <p><input type="submit" value="Send"/></p>
+        <h3>Willkommen zurück {{name}}!</h3>
+        <form action="http://localhost:1337/logout" method="post">
+            <input type="submit" value="Logout"/>
         </form>
     </body>
 
