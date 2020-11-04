@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template, make_response, escape, session, redirect, url_for
-import os
+from flask import Flask, request, render_template, escape, session, redirect, url_for
+from Example_SQL_Injection import mydata
 
 app = Flask(__name__)
 
@@ -10,7 +10,11 @@ def sessions():
     if request.method == 'POST':
         session['name'] = request.form['username']
         session['password'] = request.form['password']
-        return redirect(request.url)
+        if mydata.login_checker(session['name'], session['password']):
+            if not session['name'] or not session['password'] == 0:
+                return redirect(request.url)
+        else:
+            return render_template("index.html")
     else:
         if 'name' in session:
             return render_template("login.html", name=escape(session['name']))
