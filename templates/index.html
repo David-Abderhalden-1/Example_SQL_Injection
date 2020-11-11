@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 
     <head>
@@ -8,15 +8,19 @@
                 font-family: Verdana;
                 background-color: lightgray;
             }
+            form{
+                margin-top: 1vh;
+            }
         </style>
     </head>
 
     <body>
-        <form method="post">
-            <p>Log-In:</p>
-            <p><input type="text" name="username" placeholder="username" required/></p>
-            <p><input type="password" name="password" placeholder="password" required/></p>
-            <p><input type="submit" value="Login"/></p>
+        <h3>Willkommen zurück {{name}}!</h3>
+        {% if name == 'admin' and password == '123456789' %}
+        {{table|safe}}
+        {%endif%}
+        <form action="http://localhost:1337/logout" method="post">
+            <input type="submit" value="Logout"/>
         </form>
     </body>
 

@@ -4,17 +4,50 @@
     <head>
         <meta charset="utf-8">
         <style>
-            body{
-                font-family: Verdana;
+            html{
+                height: 60%;
                 background-color: lightgray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            body{
+                height: 200px;
+                width: 170px;
+                padding: 2%;
+                border: 2px solid rgb(141, 141, 141);
+                border-radius: 3%;
+                font-family: Verdana;
+                background-color: rgb(235, 235, 235);
+                position: relative;
+                z-index: -1;
+            }
+            .field{
+                padding: 0%;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                flex-wrap: wrap;
+                bottom: 20px;
+            }
+            .buttons{
+                width: 200px;
+                display: flex;
+                justify-content: space-between;
+
             }
         </style>
     </head>
 
     <body>
-        <h3>Willkommen zurück {{name}}!</h3>
-        <form action="http://localhost:1337/logout" method="post">
-            <input type="submit" value="Logout"/>
+        <form class="field" method="POST">
+            <p>Log-In:</p>
+            <p><input type="text" name="username" placeholder="username" required/></p>
+            <p><input type="password" name="password" placeholder="password" required/></p>
+            <div class="buttons">
+                <p><input type="submit" value="Send" formaction="http://localhost:1337/login" /></p>
+                <p><input class="register" type="submit" value="Register" formaction="http://localhost:1337/register"/></p>
+            </div>
         </form>
     </body>
 
