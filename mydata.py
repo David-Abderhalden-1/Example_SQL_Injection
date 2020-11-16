@@ -15,7 +15,7 @@ my_cursor = mydatabase.cursor()
 def login_checker_injectable(username, password):
     my_cursor.execute("SELECT * FROM user_authentication_2 WHERE username = '" + username + "' AND password = '" + password + "';")
     my_result = my_cursor.fetchall()
-    print(len(my_result))
+    print("Length of Query result: " + str(len(my_result)))
     if len(my_result) > 0:
         return True
 
@@ -24,14 +24,16 @@ def login_checker_injectable(username, password):
 def login_checker_safe(username, password):
     my_cursor.execute("SELECT * FROM user_authentication_2")
     my_result = my_cursor.fetchall()
+    function = False
     for data in my_result:
         for index in data:
             if index == username:
                 pw = data[2]
                 if password == pw:
-                    return True
+                    function = True
                 else:
-                    return False
+                    continue
+    return function
 
 
 def register(username, password):

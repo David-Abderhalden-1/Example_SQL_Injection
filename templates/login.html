@@ -2,6 +2,8 @@
 <html lang="de">
 
     <head>
+        <title>Example SQL Injection</title>
+        <link rel="shortcut icon" href="{{ url_for('fav', filename='favicon.ico') }}">
         <meta charset="utf-8">
         <style>
             html{
@@ -12,6 +14,9 @@
                 align-items: center;
             }
             body{
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 height: 200px;
                 width: 170px;
                 padding: 2%;
@@ -33,7 +38,7 @@
             .buttons{
                 width: 200px;
                 display: flex;
-                justify-content: space-between;
+                justify-content: space-around;
 
             }
         </style>
@@ -44,8 +49,9 @@
             <p>Log-In:</p>
             <p><input type="text" name="username" placeholder="username" required/></p>
             <p><input type="password" name="password" placeholder="password" required/></p>
+            <p style="font-size: 10px; margin:0 ; color: gray; text-align: center;">No login? Use username: Gast password: Gast</p>
             <div class="buttons">
-                <p><input type="submit" value="Send" formaction="http://localhost:1337/login" /></p>
+                <p><input type="submit" value="Sign-In" formaction="http://localhost:1337/login" /></p>
                 <p><input class="register" type="submit" value="Register" formaction="http://localhost:1337/register"/></p>
             </div>
         </form>

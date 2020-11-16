@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template, escape, session, redirect, url_for
-from Example_SQL_Injection import mydata
+from flask import Flask, request, render_template, escape, session, redirect, url_for, send_from_directory
+import mydata
+import os
 
 app = Flask(__name__)
 
@@ -17,22 +18,25 @@ app.secret_key = "b'\xba\x9d\xa4oBU\x8d/\x96\xe1\x04\x0e\xb3\xc6\xd5\xca\x88\r$\
 
 
 @app.route("/login", methods=['POST', 'GET'])
-def sessions():
+def sessions_login():
     if request.method == 'POST':
         if mydata.login_checker_injectable(request.form['username'], request.form['password']):
-            if not request.form['username'] or not request.form['password'] == 0:
-                session['name'] = request.form['username']
-                session['password'] = request.form['password']
-                return redirect(url_for('login'))
+            print("Login = True")
+            session['name'] = request.form['username']
+            session['password'] = request.form['password']
+            return redirect(url_for('login'))
         else:
+            print(False)
             return redirect(url_for('login'))
 
 
 @app.route("/register", methods=['POST', 'GET'])
-def register():
+def sessions_register():
     if request.method == 'POST':
         # check if data already exists.
-        if not request.form['username'] or not request.form['password'] == 0:
+        if request.form['username'] =='' or request.form['password'] =='':
+            return redirect(url_for('login'))
+        else:
             if not mydata.login_checker_safe(request.form['username'], request.form['password']):
                 session['name'] = request.form['username']
                 session['password'] = request.form['password']
@@ -48,6 +52,11 @@ def register():
 def logout():
     session.pop('name', None)
     return redirect(url_for('login'))
+
+
+@app.route('/favicon.ico')
+def fav():
+    return send_from_directory(os.path.join(app.root_path, 'img'),'favicon.ico')
 
 
 if __name__ == '__main__':

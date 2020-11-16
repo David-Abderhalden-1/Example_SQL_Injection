@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="de">
-
     <head>
+        <title>Example SQL Injection</title>
+        <link rel="shortcut icon" href="{{ url_for('fav', filename='favicon.ico') }}">
         <meta charset="utf-8">
         <style>
             body{
@@ -11,10 +12,13 @@
             form{
                 margin-top: 1vh;
             }
+            th{
+                background-color: rgb(184, 184, 184);
+            }
         </style>
     </head>
-
     <body>
+        
         <h3>Willkommen zurück {{name}}!</h3>
         {% if name == 'admin' and password == '123456789' %}
         {{table|safe}}
@@ -23,5 +27,4 @@
             <input type="submit" value="Logout"/>
         </form>
     </body>
-
 </html>
