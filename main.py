@@ -1,29 +1,64 @@
-from flask import Flask, request, render_template, escape, redirect, url_for, send_from_directory
+from flask import Flask, request, render_template, escape, session, redirect, url_for, send_from_directory
 import mydata
-import mydata_safe
+import mydata_s
 import os
 
 app = Flask(__name__)
 
 
-# Main Route
 @app.route('/index', methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':
-        username = (request.form['username'])
-        password = (request.form['password'])
-        if mydata.login_checker_injectable(username, password):
-            return render_template('index.html', name=escape(username))
-        else:
-            return redirect(url_for('login'))
+    if 'name' in session:
+        table = (mydata.list_converter())
+        return render_template("index.html", name=escape(session['name']), password=escape(session['password']), table=table)
     else:
-        return render_template('login.html')
+        return render_template("login.html")
 
 
-# Route to favicon
+#app.secret_key = "b'\xba\x9d\xa4oBU\x8d/\x96\xe1\x04\x0e\xb3\xc6\xd5\xca\x88\r$\x10\xa3\xf2i\x9a'"
+
+
+@app.route("/login", methods=['POST', 'GET'])
+def sessions_login():
+    if request.method == 'POST':
+        if mydata.login_checker_injectable(request.form['username'], request.form['password']):
+            print("Login = True")
+            session['name'] = request.form['username']
+            session['password'] = request.form['password']
+            return redirect(url_for('login'))
+        else:
+            print(False)
+            return redirect(url_for('login'))
+
+
+@app.route("/register", methods=['POST', 'GET'])
+def sessions_register():
+    if request.method == 'POST':
+        # check if data already exists.
+        if request.form['username'] =='' or request.form['password'] =='':
+            return redirect(url_for('login'))
+        else:
+            if not mydata.login_checker_safe_2(request.form['username'], request.form['password']):
+                session['name'] = request.form['username']
+                session['password'] = request.form['password']
+                mydata.register(escape(session['name']), escape(session['password']))
+                return redirect(url_for('login'))
+            else:
+                return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route("/logout", methods=['POST', 'GET'])
+def logout():
+    session.pop('name', None)
+    return redirect(url_for('login'))
+
+
 @app.route('/favicon.ico')
 def fav():
     return send_from_directory(os.path.join(app.root_path, 'img'),'favicon.ico')
+
 
 if __name__ == '__main__':
     app.run(port=1337, debug=True)
