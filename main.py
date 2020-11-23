@@ -15,7 +15,7 @@ def login():
         return render_template("login.html")
 
 
-#app.secret_key = "b'\xba\x9d\xa4oBU\x8d/\x96\xe1\x04\x0e\xb3\xc6\xd5\xca\x88\r$\x10\xa3\xf2i\x9a'"
+app.secret_key = "b'\xba\x9d\xa4oBU\x8d/\x96\xe1\x04\x0e\xb3\xc6\xd5\xca\x88\r$\x10\xa3\xf2i\x9a'"
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -38,7 +38,7 @@ def sessions_register():
         if request.form['username'] =='' or request.form['password'] =='':
             return redirect(url_for('login'))
         else:
-            if not mydata.login_checker_safe_2(request.form['username'], request.form['password']):
+            if not mydata_s.login_checker_safe_2(request.form['username'], request.form['password']):
                 session['name'] = request.form['username']
                 session['password'] = request.form['password']
                 mydata.register(escape(session['name']), escape(session['password']))
