@@ -20,11 +20,5 @@
     <body>
         
         <h3>Willkommen zurück {{name}}!</h3>
-        {% if name == 'admin' and password == '123456789' %}
-        {{table|safe}}
-        {%endif%}
-        <form action="http://localhost:1337/logout" method="post">
-            <input type="submit" value="Logout"/>
-        </form>
     </body>
 </html>
